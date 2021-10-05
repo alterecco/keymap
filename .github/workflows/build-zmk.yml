@@ -29,7 +29,6 @@ jobs:
           - board: ferris_rev02
             folder: ferris_rev02
           - board: ahokore
-            folder: ahokore
     steps:
       - name: Checkout
         uses: actions/checkout@v2
