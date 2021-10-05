@@ -41,13 +41,15 @@ jobs:
       - name: Build
         id: build
         run: |
+          cd ${GITHUB_WORKSPACE}/qmk_firmware
+          make ${{ matrix.keyboard }}
           TARGET="${{ matrix.keyboard }}"
           if [ -n "${{ matrix.keymap }}" ]; then
             TARGET="${TARGET}:${{ matrix.keymap }}"
           fi
-          sed -i 's/run --rm -it/run --rm/' qmk_firmware/util/docker_build.sh
-          qmk_firmware/util/docker_build.sh ${TARGET}
-          ls
+          sed -i 's/run --rm -it/run --rm/' util/docker_build.sh
+          util/docker_build.sh ${TARGET}
+
           echo ::set-output name=artifact-name::${TARGET//[:<>|*?\\\/]/_}
           echo "Artifact-name: ${{ steps.build.outputs.artifact-name }}"
 
