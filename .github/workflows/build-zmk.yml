@@ -5,10 +5,10 @@ name: Build ZMK
 on:
   push:
     paths:
-      - "zmk/**"
+      - "zmk_config/**"
   pull_request:
     paths:
-      - "zmk/**"
+      - "zmk_config/**"
   workflow_dispatch:
 
 jobs:
