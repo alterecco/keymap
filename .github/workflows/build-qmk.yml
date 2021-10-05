@@ -19,9 +19,11 @@ jobs:
           - source: cornelius
             target: foostan/cornelius
             keyboard: foostan/cornelius
+            keymap: alterecco
           - source: ferris
             target: ferris
             keyboard: ferris/0_2
+            keymap: alterecco
 
     steps:
       - uses: actions/checkout@v2
@@ -34,7 +36,7 @@ jobs:
         run: |
           ln -s ${GITHUB_WORKSPACE}/qmk_config/user ${GITHUB_WORKSPACE}/qmk_firmware/users/alterecco
           # link keymaps from matrix to the correct directory
-          ln -s ${GITHUB_WORKSPACE}/qmk_config/${{ matrix.source }} ${GITHUB_WORKSPACE}/qmk_firmware/keyboards/${{ matrix.target }}/keymaps/alterecco
+          ln -s ${GITHUB_WORKSPACE}/qmk_config/${{ matrix.source }} ${GITHUB_WORKSPACE}/qmk_firmware/keyboards/${{ matrix.target }}/keymaps/${{ matrix.keymap }}
 
       - name: Build
         id: build
