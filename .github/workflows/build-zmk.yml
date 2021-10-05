@@ -25,6 +25,7 @@ jobs:
           - shield: a_dux_right
             board: nice_nano_v2
           - board: ferris_rev02
+            folder: ferris_rev02
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -63,11 +64,18 @@ jobs:
             ARTIFACT_NAME="${{ matrix.board }}-zmk"
           fi
 
+          if [ -n "${{ matrix.folder }}" ]; then
+            FOLDER_ARG="zmk_config/${{ matrix.folder }}"
+          else
+            FOLDER_ARG="zmk_config"
+          fi
+
           echo ::set-output name=shield-arg::${SHIELD_ARG}
           echo ::set-output name=artifact-name::${ARTIFACT_NAME}
+          echo ::set-output name=folder-arg::${FOLDER_ARG}
       - name: Build (west build)
         run: west build -s zmk/app -b ${{ matrix.board }} -- ${{ steps.variables.outputs.shield-arg }}
-          -DZMK_CONFIG="${GITHUB_WORKSPACE}/zmk_config"
+          -DZMK_CONFIG="${GITHUB_WORKSPACE}/${{ steps.variables.outputs.folder-arg }}"
       - name: Generated DTS file
         if: always()
         run: cat -n build/zephyr/${{ matrix.board }}.dts.pre.tmp
