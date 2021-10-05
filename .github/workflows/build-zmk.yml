@@ -1,8 +1,16 @@
-name: Build
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+
+name: Build ZMK
+
 on:
-  - push
-  - pull_request
-  - workflow_dispatch
+  push:
+    paths:
+      - "zmk/**"
+  pull_request:
+    paths:
+      - "zmk/**"
+  workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-20.04
@@ -31,7 +39,7 @@ jobs:
             tools/
             zephyr/
             zmk/
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('config/west.yml') }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('zmk/west.yml') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
@@ -39,7 +47,7 @@ jobs:
         timeout-minutes: 2
         continue-on-error: true
       - name: Initialize workspace (west init)
-        run: west init -l config
+        run: west init -l zmk
       - name: Update modules (west update)
         run: west update
       - name: Export Zephyr CMake package (west zephyr-export)
@@ -59,7 +67,7 @@ jobs:
           echo ::set-output name=artifact-name::${ARTIFACT_NAME}
       - name: Build (west build)
         run: west build -s zmk/app -b ${{ matrix.board }} -- ${{ steps.variables.outputs.shield-arg }}
-          -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
+          -DZMK_CONFIG="${GITHUB_WORKSPACE}/zmk"
       - name: Generated DTS file
         if: always()
         run: cat -n build/zephyr/${{ matrix.board }}.dts.pre.tmp
