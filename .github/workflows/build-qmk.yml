@@ -34,7 +34,7 @@ jobs:
         run: |
           ln -s ${GITHUB_WORKSPACE}/qmk_config/user ${GITHUB_WORKSPACE}/qmk_firmware/users/alterecco
           # link keymaps from matrix to the correct directory
-          ln -s ${GITHUB_WORKSPACE}/qmk_config/{{ matrix.source }} ${GITHUB_WORKSPACE}/qmk_firmware/keyboards/{{ matrix.target }}/keymaps/alterecco
+          ln -s ${GITHUB_WORKSPACE}/qmk_config/${{ matrix.source }} ${GITHUB_WORKSPACE}/qmk_firmware/keyboards/${{ matrix.target }}/keymaps/alterecco
 
       - name: Build
         id: build
