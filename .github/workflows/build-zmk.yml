@@ -39,7 +39,7 @@ jobs:
             tools/
             zephyr/
             zmk/
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('zmk/west.yml') }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('zmk_config/west.yml') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
@@ -47,7 +47,7 @@ jobs:
         timeout-minutes: 2
         continue-on-error: true
       - name: Initialize workspace (west init)
-        run: west init -l zmk
+        run: west init -l zmk_config
       - name: Update modules (west update)
         run: west update
       - name: Export Zephyr CMake package (west zephyr-export)
@@ -67,7 +67,7 @@ jobs:
           echo ::set-output name=artifact-name::${ARTIFACT_NAME}
       - name: Build (west build)
         run: west build -s zmk/app -b ${{ matrix.board }} -- ${{ steps.variables.outputs.shield-arg }}
-          -DZMK_CONFIG="${GITHUB_WORKSPACE}/zmk"
+          -DZMK_CONFIG="${GITHUB_WORKSPACE}/zmk_config"
       - name: Generated DTS file
         if: always()
         run: cat -n build/zephyr/${{ matrix.board }}.dts.pre.tmp
