@@ -42,7 +42,7 @@ jobs:
         id: build
         run: |
           cd ${GITHUB_WORKSPACE}/qmk_firmware
-          make ${{ matrix.keyboard }}
+
           TARGET="${{ matrix.keyboard }}"
           if [ -n "${{ matrix.keymap }}" ]; then
             TARGET="${TARGET}:${{ matrix.keymap }}"
