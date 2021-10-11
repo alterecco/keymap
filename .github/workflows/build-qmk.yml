@@ -46,13 +46,14 @@ jobs:
           TARGET="${{ matrix.keyboard }}"
           if [ -n "${{ matrix.keymap }}" ]; then
             TARGET="${TARGET}:${{ matrix.keymap }}"
+
           fi
-          sed -i 's/run --rm -it/run --rm/' util/docker_build.sh
-          util/docker_build.sh ${TARGET}
 
           echo ::set-output name=artifact-name::${TARGET//[:<>|*?\\\/]/_}
           echo "Artifact-name: ${{ steps.build.outputs.artifact-name }}"
 
+          sed -i 's/run --rm -it/run --rm/' util/docker_build.sh
+          util/docker_build.sh ${TARGET}
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
         with:
