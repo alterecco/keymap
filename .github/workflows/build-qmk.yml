@@ -54,6 +54,8 @@ jobs:
             TARGET="${TARGET}:${{ matrix.keymap }}"
           fi
 
+          echo "Actually building ${TARGET}"
+
           echo ::set-output name=artifact-name::${TARGET//[:<>|*?\\\/]/_}
           echo "Artifact-name: ${{ steps.build.outputs.artifact-name }}"
 
