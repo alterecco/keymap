@@ -43,10 +43,15 @@ jobs:
         run: |
           cd ${GITHUB_WORKSPACE}/qmk_firmware
 
+          echo "Matrix Source: ${{ matrix.source }}"
+          echo "Matrix Target: ${{ matrix.target }}"
+          echo "Matrix Keyboard: ${{ matrix.keyboard }}"
+          echo "Matrix Keymap: ${{ matrix.keymap }}"
+
+
           TARGET="${{ matrix.keyboard }}"
           if [ -n "${{ matrix.keymap }}" ]; then
             TARGET="${TARGET}:${{ matrix.keymap }}"
-
           fi
 
           echo ::set-output name=artifact-name::${TARGET//[:<>|*?\\\/]/_}
