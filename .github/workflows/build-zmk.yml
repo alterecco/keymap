@@ -28,8 +28,8 @@ jobs:
             folder: ferris_rev02
           - board: ahokore
           - shield: naked48
-            board: nice_nano
-            folder: naked48
+            board: nice_nano_v2
+            # folder: naked48
     steps:
       - name: Checkout
         uses: actions/checkout@v2
